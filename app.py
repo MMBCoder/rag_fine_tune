@@ -12,7 +12,7 @@ import os
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")  # Ensure this is set in your environment or replace with a string
 
 # ---- Streamlit UI ----
-st.title("📄 RAG Document QA with Groq LLaMA")
+st.title("📄 RAG Fine Tunning App")
 st.markdown("Upload documents and ask questions. Compare LLM answers **with vs. without** retrieval augmentation.")
 
 # Upload files
