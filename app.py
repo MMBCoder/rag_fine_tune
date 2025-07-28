@@ -1,7 +1,7 @@
 import streamlit as st
 import tempfile
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.llms import HuggingFaceHub
@@ -57,7 +57,7 @@ if st.button("Submit"):
         retriever = db.as_retriever(search_kwargs={"k": top_k})
 
         # ---- Retrieve context ----
-        docs = retriever.get_relevant_documents(query)
+        docs = retriever.invoke(query)
         context = "\n".join([doc.page_content for doc in docs])
 
         # ---- Query Groq LLaMA model ----
@@ -70,8 +70,8 @@ if st.button("Submit"):
         )
 
         with st.spinner("Generating answers..."):
-            rag_response = llm.invoke(rag_prompt)
-            direct_response = llm.invoke(query)
+            rag_response = llm.invoke(rag_prompt).content
+            direct_response = llm.invoke(query).content
 
         # ---- Show answers ----
         tab1, tab2 = st.tabs(["RAG Answer", "Direct LLM Answer"])
